@@ -1,0 +1,82 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Card</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+
+</head>
+<body>
+    <div id="app">
+        <h1 v-if="cardLog <= 4">Please enter your credit card information</h1>
+
+        <div v-if="!maxNumbrid && cardLog == 1">
+            <p>Credit Card Number: {{ totals }} </p>
+            <input v-if="!number" @input="calculateTotal" v-model ="number" placeholder="enter number"></input>
+            <input v-if="number" v-model ="awnser" placeholder="enter awnser"></input>
+    
+            <p v-if="number">{{ oldTotalS }} +..........= {{totals}} </p>
+            <button v-if="number" class="nupp" @click="vaheArvutus">Enter</button>
+            
+            <p> {{vahe}}</p>
+        </div>
+    
+        <div v-if="!monthYearSt && cardLog == 2">
+            <p>Enter expiration month and year</p>
+            <div v-if="!monthSt">
+                <p v-if='10 > month'>Is the expiration month 0{{ month }}?</p>
+                <p v-if='month > 9'>Is the expiration month {{month}}?</p>
+                <button @click="monthSt = true">Yes</button>
+                <button v-if='12 > month' v-on:click="month += 1">No</button>
+                <button v-if='month > 11' @click="restart">Restart</button>
+            </div>
+            
+            <div v-if="monthSt && !yearSt">
+                <p>Is the expiration year {{ year}}?</p>
+                <button v-on:click="yearSt = true">Yes</button>
+                <button v-on:click="year += 1">No</button>
+            </div>
+
+            <div v-if="yearSt">
+                <p>Are you sure its valide?</p>
+                <p>{{month}} / {{year}}</p>
+                <button @click="checkDate">Yes</button>
+                <button @click="restart">Restart</button>
+                <p v-if="expired">Card has expired</p>
+                <button v-if="expired">Restart</button>
+            </div>
+        </div>
+
+        <div v-if="!cvcSt && cardLog == 3">
+            <p>Enter CVC</p>
+            <input v-model="cvc" placeholder="enter cvc"></input>
+            <p>Press the Right next button</p>
+            <button @click="rightButton" style="color:green">Right Next</button>
+            <button @click="rightButton" style="color:red">Right</button>
+            <button @click="rightButton" style="color:blue">Next</button>
+            <button @click="rightButton" style="color:blueviolet">Next Right</button>
+        </div>
+
+        <div v-if="!nameSt && cardLog == 4">
+            <p>Enter your card name</p>
+            <input v-if="reverseName == '' " v-model="name" placeholder="enter name"></input>
+            <button v-if="reverseName == '' "@click="nameReverse">RETNE</button>
+            <p v-if="reverseName != '' ">Are you sure your name is {{reverseName}}</p>
+
+            <button @click="theEnd" v-if="reverseName != '' ">Yes</button> 
+            <button @click="restart" v-if="reverseName != '' ">Restart</button>
+        </div>
+
+        <div v-if="cardLog == 5">
+            <h1>Thank you for your information</h1>
+            <p>Your card number is {{totals}}</p>
+            <p>Your card name is {{reverseName}}</p>
+            <p>Your expiration month and year is {{month}}/{{year}}</p>
+            <p>And your CVC is {{cvc}}</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
